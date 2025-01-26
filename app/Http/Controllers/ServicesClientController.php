@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\clients;
 use App\Models\services_client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
 
 class ServicesClientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $services = services_client::all();
+        return view('services_client.index', compact('services'));
     }
 
     /**
@@ -28,15 +31,27 @@ class ServicesClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'حدث خطاء اثناء التسجيل: ' . $validator->errors());
+        }
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(services_client $services_client)
+    public function show($id)
     {
-        //
+        $client = clients::find($id);
+
+         $services = services_client::where('client_id', $id)->get();
+      
+         return view('clients.show_details', compact('services' , 'client'));
     }
 
     /**

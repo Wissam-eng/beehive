@@ -37,12 +37,12 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+            'driver' => 'session', // حارس الجلسة للويب
+            'provider' => 'admins', // المزود الخاص بالأدمن
         ],
         'admins' => [
-            'driver' => 'jwt',
-            'provider' => 'admins', // يحدد المزود المرتبط بهذا الحارس
+            'driver' => 'jwt', // حارس JWT للأدمن
+            'provider' => 'admins', // المزود الخاص بالأدمن
         ],
         'clients' => [
             'driver' => 'jwt',
@@ -77,6 +77,7 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\admins::class,
         ],
+
         'clients' => [
             'driver' => 'eloquent',
             'model' => App\Models\clients::class,

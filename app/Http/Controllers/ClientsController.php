@@ -12,31 +12,50 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        //
+        $clients = clients::where('status', 'active')->get();
+        return view('clients.index', compact('clients'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function ClientsInActive()
     {
-        //
+
+        $clients = clients::where('status', 'inactive')->get();
+        return view('clients.ClientsInActive', compact('clients'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(clients $clients)
+
+    public function show_details($id)
     {
-        //
+        $clients = clients::with('orders')->find($id);
+
+        // dd($clients->orders);
+        if (!$clients) {
+            return redirect()->back()->with('error', 'Client not found');
+        }
+
+
+        return view('clients.show_details', compact('clients'));
+    }
+
+
+    public function show($id)
+    {
+        $clients = clients::find($id);
+
+
+        if (!$clients) {
+            return redirect()->back()->with('error', 'Client not found');
+        }
+
+
+        return view('clients.show', compact('clients'));
     }
 
     /**
@@ -46,6 +65,33 @@ class ClientsController extends Controller
     {
         //
     }
+
+
+
+
+    public function inactive_client($id)
+    {
+        $client = Clients::find($id);
+        if (!$client) {
+            return redirect()->back()->with('error', 'Client not found');
+        }
+        $client->status = 'inactive';
+        $client->save();
+        return redirect()->back()->with('success', 'Client Inactive');
+    }
+
+
+    public function active_client($id)
+    {
+        $client = Clients::find($id);
+        if (!$client) {
+            return redirect()->back()->with('error', 'Client not found');
+        }
+        $client->status = 'active';
+        $client->save();
+        return redirect()->back()->with('success', 'Client active');
+    }
+
 
     /**
      * Update the specified resource in storage.

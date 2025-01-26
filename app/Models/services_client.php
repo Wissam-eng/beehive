@@ -11,9 +11,9 @@ class services_client extends Model
 
 
     protected $fillable = [
-        'service_id',
+        'service_name',
+        'service_cost',
         'client_id',
         'payment_status',
-        'status',
     ];
 }

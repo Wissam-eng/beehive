@@ -13,12 +13,14 @@ class hellomail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $otp;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($otp)
     {
-        //
+        $this->otp = $otp;
     }
 
     /**
@@ -27,7 +29,7 @@ class hellomail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Hellomail',
+            subject: 'high level family',
         );
     }
 
@@ -37,7 +39,7 @@ class hellomail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.hello',
+            view: 'mail.hello', // تحديد اسم العرض فقط بدون دمج متغير
         );
     }
 

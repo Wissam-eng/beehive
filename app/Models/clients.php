@@ -77,5 +77,13 @@ class clients extends Authenticatable implements JWTSubject
     {
         return [];
     }
-}
 
+
+
+    public function orders()
+    {
+        return $this->hasMany(services_client::class , 'client_id' , 'id');
+    }
+
+
+}

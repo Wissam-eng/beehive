@@ -14,12 +14,15 @@ return new class extends Migration
         Schema::create('services_clients', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
+            $table->string('service_name');
+            $table->string('service_cost');
+
+            // $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
 
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
 
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
-            $table->enum('status', ['active', 'inactive' , 'canceled'])->default('inactive');
+            // $table->enum('status', ['active', 'inactive' , 'canceled'])->default('inactive');
             $table->timestamps();
         });
     }

@@ -14,8 +14,17 @@ class ServicesClientController extends Controller
 
     public function index()
     {
-        $services = services_client::all();
-        return view('services_client.index', compact('services'));
+
+        $services = services_client::where('status', 'active')->get();
+        return view('orders.index', compact('services'));
+    }
+
+
+    public function orders_in_active()
+    {
+
+        $services = services_client::where('status', 'inactive')->get();
+        return view('orders.inActive_order', compact('services'));
     }
 
     /**
@@ -39,7 +48,6 @@ class ServicesClientController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->with('error', 'حدث خطاء اثناء التسجيل: ' . $validator->errors());
         }
-
     }
 
     /**
@@ -48,31 +56,84 @@ class ServicesClientController extends Controller
     public function show($id)
     {
         $client = clients::find($id);
+        if (!$client) {
+            return redirect()->back()->with('error', 'Client not found');
+        }
 
-         $services = services_client::where('client_id', $id)->get();
-      
-         return view('clients.show_details', compact('services' , 'client'));
+
+        $services = services_client::where('client_id', $id)->get();
+
+        return view('clients.show_details', compact('services', 'client'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
+    public function show_all_my_order($id)
+    {
+        $client = clients::find($id);
+        if (!$client) {
+            return response()->json(['error', 'Client not found'] , 401);
+        }
+
+        $services = services_client::where('client_id', $id)->get();
+
+        return response()->json([
+            'success' => true,
+            'my_orders' => $services
+        ]);
+    }
+
+
+
+
+
+
+
+    public function show_my_order($id)
+    {
+        $order = services_client::find($id);
+        if (!$order) {
+            return response()->json('error', 'Order not found');
+        }
+
+        return response()->json([
+            'success' => true,
+            'order' => $order
+        ]);
+    }
+
+
     public function edit(services_client $services_client)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, services_client $services_client)
+
+
+    public function inactive_order(Request $request, $id)
     {
-        //
+        $services_client = services_client::find($id);
+
+        if (!$services_client) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        $validator = validator($request->all(), [
+            'status' => 'required|string|in:active,inactive',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => 'Validation error: ' . $validator->errors()], 422);
+        }
+
+        $services_client->update([
+            'status' => $request->status
+        ]);
+
+        return response()->json(['message' => 'Order status updated successfully'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
+
     public function destroy(services_client $services_client)
     {
         //

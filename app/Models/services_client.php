@@ -15,5 +15,6 @@ class services_client extends Model
         'service_cost',
         'client_id',
         'payment_status',
+        'status',
     ];
 }

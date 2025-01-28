@@ -11,7 +11,7 @@
                 <a href="javascript:;" class="text-primary hover:underline">لوحة التحكم</a>
             </li>
             <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                <span>الطلبات</span>
+                <span>الطلبات المعلقة</span>
             </li>
         </ul>
 
@@ -20,17 +20,19 @@
 
             <div class="grid grid-cols-1 gap-6 ">
                 <div class="panel h-full w-full">
-                    <div class="mb-5 flex items-center justify-between" style="display: block;text-align: center;">
-                        <h5 class="text-lg font-semibold dark:text-white-light">الطلبات</h5>
+                    <div class="mb-5 flex items-center justify-between"style="display: block;text-align: center;">
+                        <h5 class="text-lg font-semibold dark:text-white-light">الطلبات المعلقة</h5>
                     </div>
                     <div class="table-responsive">
                         <table id="servicesTable">
                             <thead>
                                 <tr>
-                                    <th class="ltr:rounded-l-md rtl:rounded-r-md">service</th>
-                                    <th>cost </th>
-                                    <th>status payment</th>
-                                    <th>status</th>
+                                    <th class="ltr:rounded-l-md rtl:rounded-r-md">الخدمة</th>
+                                    <th>التكلفة </th>
+                                    <th>حالة الدفع</th>
+                                    <th>الحالة</th>
+                                    <th>عدد الايام من تاريخ الانشاء</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,6 +46,11 @@
                                         <td class="text-primary">{{ $service->service_cost }}</td>
                                         <td><a href="apps-invoice-preview.html">{{ $service->payment_status }}</a></td>
                                         <td><a href="apps-invoice-preview.html">{{ $service->status }}</a></td>
+                                        <td>
+                                            <span class="badge bg-primary shadow-md dark:group-hover:bg-transparent">
+                                                {{ \Carbon\Carbon::parse($service->created_at)->diffInDays(\Carbon\Carbon::now()) }}
+                                            </span>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

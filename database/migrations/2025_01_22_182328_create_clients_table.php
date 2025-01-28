@@ -38,8 +38,8 @@ return new class extends Migration
             $table->string('Academic_qualification')->nullable();
 
 
-            $table->enum('gender', ['male', 'female']);
-            $table->enum('marital_status', ['single', 'married']);
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->enum('marital_status', ['single', 'married'])->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
 
             $table->timestamps();

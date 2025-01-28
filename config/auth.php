@@ -36,9 +36,13 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'admin_web' => [
             'driver' => 'session', // حارس الجلسة للويب
             'provider' => 'admins', // المزود الخاص بالأدمن
+        ],
+        'web' => [
+            'driver' => 'session', // حارس الجلسة للويب
+            'provider' => 'users', // المزود الخاص بالأدمن
         ],
         'admins' => [
             'driver' => 'jwt', // حارس JWT للأدمن

@@ -30,7 +30,7 @@ class LoginController extends Controller
         ]);
 
 
-        if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
+        if (Auth::guard('admin_web')->attempt($request->only('email', 'password'))) {
 
             return redirect()->route('home')->with('success', 'تم تسجيل الدخول بنجاح.');
         }
@@ -42,11 +42,15 @@ class LoginController extends Controller
 
     public function loginWithJWT(Request $request)
     {
-        // تحقق من بيانات الاعتماد باستخدام الحارس 'admins' (JWT)
-        if (Auth::guard('admins')->attempt($request->only('email', 'password'))) {
-            $admin = Auth::guard('admins')->user();
-            $token = Auth::guard('admins')->login($admin); // إنشاء التوكن
-            return response()->json(['token' => $token]);
+        if (Auth::guard('clients')->attempt($request->only('email', 'password'))) {
+
+            $client = Auth::guard('clients')->user();
+            $token = Auth::guard('clients')->login($client);
+
+            return response()->json([
+                'token' => $token,
+                'client' => $client
+            ]);
         }
 
         return response()->json(['error' => 'بيانات الاعتماد غير صحيحة.'], 401);

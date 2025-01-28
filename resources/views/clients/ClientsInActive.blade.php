@@ -31,6 +31,7 @@
                                     <th class="ltr:rounded-l-md rtl:rounded-r-md">الاسم</th>
                                     <th>الايميل</th>
                                     <th>الموبايل</th>
+                                    <th>عدد الايام من تاريخ الانشاء</th>
                                     <th>الحالة</th>
                                     <th>الخدمات</th>
                                     <th>تفاصيل</th>
@@ -47,9 +48,21 @@
                                         </td>
                                         <td class="text-primary">{{ $user->email }}</td>
                                         <td><a href="#">{{ $user->mobile }}</a></td>
+
+
+
+                                        <td>
+                                            <span class="badge bg-primary shadow-md dark:group-hover:bg-transparent">
+                                                {{ \Carbon\Carbon::parse($user->created_at)->diffInDays(\Carbon\Carbon::now()) }}
+                                            </span>
+                                        </td>
+
+
+
                                         <td>
                                             <span
-                                                class="badge bg-primary shadow-md dark:group-hover:bg-transparent">{{ $user->status }}</span>
+                                                class="badge bg-primary shadow-md dark:group-hover:bg-transparent">{{ $user->status }}
+                                            </span>
                                         </td>
 
 

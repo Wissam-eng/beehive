@@ -16,13 +16,14 @@ return new class extends Migration
 
             $table->string('service_name');
             $table->string('service_cost');
+            $table->integer('order_id');
 
             // $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
 
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
 
-            $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
-            $table->enum('status', ['active', 'inactive' , 'canceled'])->default('inactive');
+            $table->enum('payment_status', ['paid', 'unpaid', 'pending'])->default('unpaid');
+            $table->enum('status', ['active', 'inactive', 'canceled'])->default('inactive');
             $table->timestamps();
         });
     }

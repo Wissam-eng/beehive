@@ -22,9 +22,9 @@ use App\Http\Controllers\CheckOutController;
 */
 
 // Authentication Routes
-// Route::get('/', function () {
-//     return view('auth.login');
-// })->name('login');
+Route::get('/', function () {
+    return view('auth.login');
+})->name('login');
 
 Auth::routes();
 
@@ -36,9 +36,11 @@ Route::post('resetpassword', [ForgotPasswordController::class, 'resetpassword'])
 
 
 
-Route::get('/thankyou', function () {return view('thankyou');});
+Route::get('/thankyou', function () {
+    return view('thankyou');
+});
 
-Route::get('/' , [CheckOutController::class, 'index']);
+// Route::get('/' , [CheckOutController::class, 'index']);
 
 //Paymob Routes
 Route::post('/credit', [PaymobController::class, 'credit'])->name('checkout'); // this route send all functions data to paymob
@@ -75,4 +77,3 @@ Route::middleware(['auth:admin_web'])->group(function () {
     // User Registration
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
-

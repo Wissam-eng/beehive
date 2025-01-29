@@ -71,7 +71,7 @@ class ServicesClientController extends Controller
     {
         $client = clients::find($id);
         if (!$client) {
-            return response()->json(['error', 'Client not found'] , 401);
+            return response()->json(['error', 'Client not found'], 401);
         }
 
         $services = services_client::where('client_id', $id)->get();
@@ -88,18 +88,41 @@ class ServicesClientController extends Controller
 
 
 
-    public function show_my_order($id)
+    public function show_my_order(Request $request, $id)
     {
-        $order = services_client::find($id);
+        $data = [
+            'id' => $id,
+            'order_id' => $request->input('order_id'),
+        ];
+
+        $validator = Validator::make($data, [
+            'id' => 'required|exists:clients,id',
+            'order_id' => 'required|string|exists:services_clients,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422); // Ensure this status code is an integer
+        }
+
+        // منطقك هنا بعد التحقق الناجح
+        $order = services_client::find( $data['order_id'])->where('client_id', $id)->first();
+
         if (!$order) {
-            return response()->json('error', 'Order not found');
+            return response()->json([
+                'success' => false,
+                'message' => 'Order not found',
+            ], 404); // Ensure this status code is an integer
         }
 
         return response()->json([
             'success' => true,
-            'order' => $order
-        ]);
+            'order' => $order,
+        ], 200); // Ensure this status code is an integer
     }
+
 
 
     public function edit(services_client $services_client)

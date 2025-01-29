@@ -35,6 +35,8 @@ class ClientsController extends Controller
             // Validate the request
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
+                'service_name' => 'required|array|max:255',
+                'service_cost' => 'required|array|max:255',
                 'email' => 'required|string|email|unique:clients|max:255',
                 'mobile' => 'required|string|max:255|unique:clients',
                 'gender' => 'required|in:male,female',
@@ -61,6 +63,21 @@ class ClientsController extends Controller
                 ], 422); // Unprocessable Entity
             }
 
+
+            // $input['service_cost'] = array_sum($request->service_cost);
+            $service_cost = array_sum(array_map('floatval', $request->service_cost));
+
+
+            if (is_array($request->service_name)) {
+
+                $service_name = implode('_', $request->service_name);
+            } else {
+
+                $service_name = $request->service_name;
+            }
+
+
+
             $input = $request->except(['img']);
             if ($request->hasFile('img')) {
                 $file = $request->file('img');
@@ -69,6 +86,9 @@ class ClientsController extends Controller
             }
 
             $input['password'] = Hash::make($request->password);
+
+
+            // dd($input['service_name']);
 
 
 
@@ -86,15 +106,19 @@ class ClientsController extends Controller
 
             // بيانات الطلب الخاص برسوم التسجيل
             $orderData = [
-                'total' => 100, // رسوم اشتراك على سبيل المثال
+                // 'total' => 100,
+                'total' =>  $service_cost, // رسوم اشتراك على سبيل المثال
                 'currency' => 'EGP',
-                'service_name' => 'برمجة',
+                'service_name' =>  $service_name,
+                'services' => $input['service_name'],
+                'services_all_cost' => $input['service_cost'],
 
                 'items' => [
                     [
-                        "name" => "User Registration Fee",
-                        "amount_cents" => 10000,
-                        "description" => "Fee for new user registration",
+                        // "name" => "User Registration Fee",
+                        'name' =>   $service_name,
+                        "amount_cents" => $service_cost * 100,
+                        "description" => "beehive for services",
                         "quantity" => 1
                     ]
                 ]
@@ -139,83 +163,114 @@ class ClientsController extends Controller
 
 
 
+    public function add_service(Request $request, $id)
+    {
+        try {
 
 
-    // public function callback(Request $request)
-    // {
-    //     //this call back function its return the data from paymob and we show the full response and we checked if hmac is correct means successfull payment
 
-    //     $data = $request->all();
-    //     ksort($data);
-    //     $hmac = $data['hmac'];
-    //     $array = [
-    //         'amount_cents',
-    //         'created_at',
-    //         'currency',
-    //         'error_occured',
-    //         'has_parent_transaction',
-    //         'id',
-    //         'integration_id',
-    //         'is_3d_secure',
-    //         'is_auth',
-    //         'is_capture',
-    //         'is_refunded',
-    //         'is_standalone_payment',
-    //         'is_voided',
-    //         'order',
-    //         'owner',
-    //         'pending',
-    //         'source_data_pan',
-    //         'source_data_sub_type',
-    //         'source_data_type',
-    //         'success',
-    //     ];
-    //     $connectedString = '';
-    //     foreach ($data as $key => $element) {
-    //         if (in_array($key, $array)) {
-    //             $connectedString .= $element;
-    //         }
-    //     }
-    //     $secret = env('PAYMOB_HMAC');
-    //     $hased = hash_hmac('sha512', $connectedString, $secret);
-    //     if ($hased == $hmac) {
-    //         //this below data used to get the last order created by the customer and check if its exists to
-    //         // $todayDate = Carbon::now();
-    //         // $datas = Order::where('user_id',Auth::user()->id)->whereDate('created_at',$todayDate)->orderBy('created_at','desc')->first();
-    //         $status = $data['success'];
-    //         // $pending = $data['pending'];
-
-    //         if ($status == "true") {
-
-    //             //here we checked that the success payment is true and we updated the data base and empty the cart and redirct the customer to thankyou page
-
-    //             // Cart::where('user_id',auth()->user()->id)->delete();
-    //             // $datas->update([
-    //             //     'payment_id' => $data['id'],
-    //             //     'payment_status' => "Compeleted"
-    //             // ]);
-    //             // try {
-    //             //     $order = Order::find($datas->id);
-    //             //     Mail::to('maherfared@gmail.com')->send(new PlaceOrderMailable($order));
-    //             // }catch(\Exception $e){
-
-    //             // }
-    //             return redirect('thankyou');
-    //         } else {
-    //             // $datas->update([
-    //             //     'payment_id' => $data['id'],
-    //             //     'payment_status' => "Failed"
-    //             // ]);
+            $validator = Validator::make($request->all(), [
+                'service_name' => 'required|array|max:255',
+                'service_cost' => 'required|array|max:255',
+            ]);
 
 
-    //             return redirect('/checkout')->with('message', 'Something Went Wrong Please Try Again');
-    //         }
-    //     } else {
-    //         return redirect('/checkout')->with('message', 'Something Went Wrong Please Try Again');
-    //     }
-    // }
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                ], 422); // Unprocessable Entity
+            }
 
 
+            $client_id = clients::find($id);
+
+            if (!$client_id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Client not found',
+                ], 404); // Not Found
+            }
+
+            $service_cost = array_sum(array_map('floatval', $request->service_cost));
+
+
+            if (is_array($request->service_name)) {
+
+                $service_name = implode('_', $request->service_name);
+            } else {
+
+                $service_name = $request->service_name;
+            }
+
+
+
+
+            $userData = [
+                'first_name' => $client_id->name,
+                'last_name' => $client_id->name,
+                'email' => $client_id->email,
+                'phone_number' => $client_id->mobile,
+                'user_id' => $client_id->id
+            ];
+
+            // بيانات الطلب الخاص برسوم التسجيل
+            $orderData = [
+                // 'total' => 100,
+                'total' =>  $service_cost, // رسوم اشتراك على سبيل المثال
+                'currency' => 'EGP',
+                'service_name' =>  $service_name,
+                'services' => $request->service_name,
+                'services_all_cost' => $request->service_cost,
+
+                'items' => [
+                    [
+                        // "name" => "User Registration Fee",
+                        'name' =>   $service_name,
+                        "amount_cents" => $service_cost * 100,
+                        "description" => "beehive for services",
+                        "quantity" => 1
+                    ]
+                ]
+            ];
+
+
+
+
+
+            // استدعاء كنترولر الدفع
+            $paymobController = new PaymobController();
+            $response = $paymobController->processPayment($orderData, $userData);
+
+            if ($response['status'] === 'success') {
+
+
+
+
+
+                return response()->json([
+                    'success' => true,
+                    'payment_url' => $response['payment_url'],  // رابط الدفع
+                ], 201); // Created
+
+            } else {
+
+                $client_id->forceDelete();
+
+                // عرض رسالة خطأ
+                return response()->json([
+                    'success' => false,
+                    'message' => $response['message'],  // عرض رسالة خطأ في حالة فشل الدفع
+                ], 400); // Bad Request
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 
 
 

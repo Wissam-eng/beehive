@@ -17,5 +17,6 @@ class services_client extends Model
         'payment_status',
         'status',
         'order_id',
+        'trans_id',
     ];
 }

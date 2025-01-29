@@ -42,7 +42,7 @@ class LoginController extends Controller
 
     public function loginWithJWT(Request $request)
     {
-        if (Auth::guard('clients')->attempt($request->only('email', 'password'))) {
+        if (Auth::guard('clients')->attempt($request->only('mobile', 'password'))) {
 
             $client = Auth::guard('clients')->user();
             $token = Auth::guard('clients')->login($client);

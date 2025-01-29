@@ -34,6 +34,9 @@ Route::middleware(['auth:admins'])->group(function () {});
 
 Route::middleware(['auth:clients'])->group(function () {
 
+
+
+
     Route::post('inactive_order/{id}', [ServicesClientController::class, 'inactive_order'])->name('inactive_order');
 
 
@@ -45,6 +48,7 @@ Route::middleware(['auth:clients'])->group(function () {
     Route::post('inactive_my_account/{id}', [ClientsController::class, 'inactive_my_account'])->name('inactive_my_account');
 
     Route::get('show_my_account/{id}', [ClientsController::class, 'show_my_account'])->name('show_my_account');
+    Route::post('add_service/{id}', [ClientsController::class, 'add_service'])->name('add_service');
 });
 
 

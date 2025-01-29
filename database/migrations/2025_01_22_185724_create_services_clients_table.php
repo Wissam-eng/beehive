@@ -16,7 +16,8 @@ return new class extends Migration
 
             $table->string('service_name');
             $table->string('service_cost');
-            $table->integer('order_id');
+            $table->integer('order_id')->nullable();
+            $table->integer('trans_id')->nullable();
 
             // $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
 

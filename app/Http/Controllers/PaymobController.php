@@ -87,6 +87,7 @@ class PaymobController extends Controller
 
                 foreach ($order as $od) {
                     $od->update([
+                        'status' => "active",
                         'payment_status' => "paid",
                         'trans_id' => $data['id']
                     ]);

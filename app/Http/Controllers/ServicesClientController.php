@@ -90,7 +90,7 @@ class ServicesClientController extends Controller
         if (!$service) {
             return redirect()->back()->with('error', 'service not found');
         }
-        $service->refund = 'done';
+        $service->refund = 'paid';
         $service->save();
         return redirect()->back()->with('success', 'service refund Done');
     }

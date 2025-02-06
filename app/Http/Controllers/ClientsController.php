@@ -382,7 +382,7 @@ class ClientsController extends Controller
         if (!$client) {
             return redirect()->back()->with('error', 'Client not found');
         }
-        $client->refund = 'done';
+        $client->refund = 'paid';
         $client->save();
         return redirect()->back()->with('success', 'Client refund Done');
     }

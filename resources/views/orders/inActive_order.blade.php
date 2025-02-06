@@ -61,7 +61,7 @@
                                         </td>
 
                                         <td>
-                                            @if ($service->refund == 'not')
+                                            @if ($service->refund == 'not_paid')
                                                 <form id="refund-form-{{ $service->id }}"
                                                     action="{{ route('refund_service', ['id' => $service->id]) }}"
                                                     method="POST" style="display: none;">

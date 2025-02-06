@@ -99,7 +99,7 @@
                                                 تنشيط
                                             </button>
 
-                                            @if ($user->refund == 'not')
+                                            @if ($user->refund == 'not_paid')
                                                 <form id="refund-form-{{ $user->id }}"
                                                     action="{{ route('refund_account', ['id' => $user->id]) }}"
                                                     method="POST" style="display: none;">

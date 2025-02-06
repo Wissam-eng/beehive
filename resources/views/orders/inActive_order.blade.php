@@ -32,6 +32,8 @@
                                     <th>حالة الدفع</th>
                                     <th>الحالة</th>
                                     <th>عدد الايام من تاريخ الانشاء</th>
+                                    <th>حالة المرتجع</th>
+                                    <th>Acton</th>
 
                                 </tr>
                             </thead>
@@ -50,6 +52,26 @@
                                             <span class="badge bg-primary shadow-md dark:group-hover:bg-transparent">
                                                 {{ \Carbon\Carbon::parse($service->created_at)->diffInDays(\Carbon\Carbon::now()) }}
                                             </span>
+                                        </td>
+
+                                        <td>
+                                            <span
+                                                class="badge bg-primary shadow-md dark:group-hover:bg-transparent">{{ $service->refund }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            @if ($service->refund == 'not')
+                                                <form id="refund-form-{{ $service->id }}"
+                                                    action="{{ route('refund_service', ['id' => $service->id]) }}"
+                                                    method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
+                                                <button type="button" class="btn btn-success ltr:mr-1 rtl:ml-1"
+                                                    onclick="confirmAction('{{ $service->id }}', 'refund')">
+                                                    تاكيد المرتجع
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

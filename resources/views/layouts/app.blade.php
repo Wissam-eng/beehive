@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>VRISTO - Multipurpose Tailwind Dashboard Template</title>
+    <title>BEEHIVE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="{{ url('resources/views/favicon.png') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -419,7 +419,7 @@
                                     </svg>
                                     <span
                                         class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">الطلبات
-                                        المعلقة</span>
+                                        الملغاة</span>
                                 </div>
                                 <div class="rtl:rotate-180"
                                     :class="{ '!rotate-90': activeDropdown === 'dashboard' }">
@@ -918,8 +918,27 @@
 
     <!-- script -->
 
-
     <script>
+        function confirmAction(userId, action) {
+            const formId = action === 'active' ? `active-form-${userId}` : `refund-form-${userId}`;
+
+            Swal.fire({
+                title: "هل أنت متأكد؟",
+                text: action === 'active' ? "هل ترغب في تنشيط الحساب؟" : "هل ترغب في تاكيد المرتجع",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "نعم، نفذ الإجراء!",
+                cancelButtonText: "إلغاء"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+    </script>
+    {{-- <script>
         function confirmDelete(itemId) {
             Swal.fire({
                 title: "هل أنت متأكد؟",
@@ -936,7 +955,7 @@
                 }
             });
         }
-    </script>
+    </script> --}}
 
 
     <script>

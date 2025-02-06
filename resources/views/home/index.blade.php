@@ -39,8 +39,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <p class="text-lg dark:text-white-light/90">Total Profit <span
-                                class="ml-2 text-primary">$10,840</span></p>
+                        <p class="text-lg dark:text-white-light/90">Total Profits <span
+                                class="ml-2 text-primary">{{ $profits }} EGP</span></p>
                         <div class="relative overflow-hidden">
                             <div x-ref="revenueChart" class="rounded-lg bg-white dark:bg-black">
                                 <!-- loader -->
@@ -55,16 +55,14 @@
 
                     <div class="panel h-full">
                         <div class="mb-5 flex items-center">
-                            <h5 class="text-lg font-semibold dark:text-white-light">Sales By Category</h5>
+                            <h5 class="text-lg font-semibold dark:text-white-light">Sales By services</h5>
                         </div>
                         <div class="overflow-hidden">
                             <div x-ref="salesByCategory" class="rounded-lg bg-white dark:bg-black">
                                 <!-- loader -->
-                                <div
-                                    class="grid min-h-[353px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
-                                    <span
-                                        class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
-                                </div>
+                                {{-- <div class="grid min-h-[353px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                                    <span class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

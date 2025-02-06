@@ -21,6 +21,9 @@ class ClientsController extends Controller
     }
 
 
+
+
+
     public function ClientsInActive()
     {
 
@@ -330,12 +333,13 @@ class ClientsController extends Controller
 
 
 
-    public function inactive_client($id)
+    public function inactive_client(Request $request, $id)
     {
         $client = Clients::find($id);
         if (!$client) {
             return redirect()->back()->with('error', 'Client not found');
         }
+
         $client->status = 'inactive';
         $client->save();
         return redirect()->back()->with('success', 'Client Inactive');
@@ -343,15 +347,44 @@ class ClientsController extends Controller
 
 
 
-    public function inactive_my_account($id)
+    public function inactive_my_account(Request $request, $id)
     {
         $client = Clients::find($id);
+
         if (!$client) {
             return response()->json(['error' => 'Client not found'], 404);
         }
-        $client->status = 'inactive';
-        $client->save();
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'mobile_wallet' => 'required|string|max:255',
+            'account_number_bank' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error', 'حدث خطاء اثناء التسجيل: ' . $validator->errors()], 422);
+        }
+
+        $client->update([
+            'mobile_wallet' => $request->mobile_wallet,
+            'account_number_bank' => $request->account_number_bank,
+            'status' => 'inactive',
+        ]);
+
         return response()->json(['message' => 'your account Inactive'], 200);
+    }
+
+
+
+    public function refund_account(Request $request, $id)
+    {
+        $client = Clients::find($id);
+        if (!$client) {
+            return redirect()->back()->with('error', 'Client not found');
+        }
+        $client->refund = 'done';
+        $client->save();
+        return redirect()->back()->with('success', 'Client refund Done');
     }
 
 

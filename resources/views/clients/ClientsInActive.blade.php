@@ -33,6 +33,7 @@
                                     <th>الموبايل</th>
                                     <th>عدد الايام من تاريخ الانشاء</th>
                                     <th>الحالة</th>
+                                    <th>مرتج الاموال</th>
                                     <th>الخدمات</th>
                                     <th>تفاصيل</th>
                                     <th>Action</th>
@@ -65,6 +66,12 @@
                                             </span>
                                         </td>
 
+                                        <td>
+                                            <span
+                                                class="badge bg-primary shadow-md dark:group-hover:bg-transparent">{{ $user->refund }}
+                                            </span>
+                                        </td>
+
 
                                         <td>
                                             <a href="{{ route('show_details.show', $user->id) }}">
@@ -81,15 +88,28 @@
                                             </a>
                                         </td>
 
-
                                         <td>
-                                            <form id="active-form-{{ $user->id }}" action="{{ route('active_client', ['id' => $user->id]) }}" method="POST" style="display: none;">
+                                            <form id="active-form-{{ $user->id }}"
+                                                action="{{ route('active_client', ['id' => $user->id]) }}" method="POST"
+                                                style="display: none;">
                                                 @csrf
-                                                @method('POST')
                                             </form>
-                                            <button type="button" class="btn btn-secondary ltr:mr-2 rtl:ml-2" onclick="confirmAction({{ $user->id }}, 'active')">
+                                            <button type="button" class="btn btn-secondary ltr:mr-2 rtl:ml-2"
+                                                onclick="confirmAction('{{ $user->id }}', 'active')">
                                                 تنشيط
                                             </button>
+
+                                            @if ($user->refund == 'not')
+                                                <form id="refund-form-{{ $user->id }}"
+                                                    action="{{ route('refund_account', ['id' => $user->id]) }}"
+                                                    method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
+                                                <button type="button" class="btn btn-success ltr:mr-1 rtl:ml-1"
+                                                    onclick="confirmAction('{{ $user->id }}', 'refund')">
+                                                    تاكيد المرتجع
+                                                </button>
+                                            @endif
                                         </td>
 
 

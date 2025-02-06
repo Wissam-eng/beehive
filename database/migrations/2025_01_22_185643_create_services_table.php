@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('img')->nullable();
             $table->enum('payment_way :', ['fawry', 'visacard', 'wallet', 'cash']);
+            $table->enum('refund', ['done', 'not'])->default('not');
             $table->decimal('cost');
             $table->longText('description');
             $table->timestamps();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\admins;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\services_client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -12,24 +13,11 @@ use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home.index');
+        $profits = services_client::where('status', 'active')->where('payment_status', 'paid')->sum('service_cost');
+        return view('home.index')->with('profits', $profits);
     }
 
 

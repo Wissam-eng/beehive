@@ -36,11 +36,15 @@ return new class extends Migration
             $table->string('Village_Street')->nullable();
             $table->string('num_of_children')->nullable();
             $table->string('Academic_qualification')->nullable();
+            $table->string('mobile_wallet')->nullable();
+            $table->string('account_number_bank')->nullable();
 
 
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->enum('marital_status', ['single', 'married'])->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('refund', ['done', 'not'])->default('not');
+
 
             $table->timestamps();
         });

@@ -70,9 +70,13 @@ Route::middleware(['auth:admin_web'])->group(function () {
     Route::post('inactive_client/{id}', [ClientsController::class, 'inactive_client'])->name('inactive_client');
     Route::post('active_client/{id}', [ClientsController::class, 'active_client'])->name('active_client');
     Route::get('ClientsInActive', [ClientsController::class, 'ClientsInActive'])->name('clients.inactive');
+    Route::post('refund_account/{id}', [ClientsController::class, 'refund_account'])->name('refund_account');
+
+
 
     // Services Client Routes
     Route::resource('show_details', ServicesClientController::class);
+    Route::post('refund_service/{id}', [ServicesClientController::class, 'refund_service'])->name('refund_service');
 
     // User Registration
     Route::post('/register', [AuthController::class, 'register'])->name('register');

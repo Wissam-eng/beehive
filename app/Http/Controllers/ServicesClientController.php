@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\clients;
+use App\Models\services;
 use App\Models\services_client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,8 +84,16 @@ class ServicesClientController extends Controller
     }
 
 
-
-
+    public function refund_service(Request $request, $id)
+    {
+        $service = services_client::find($id);
+        if (!$service) {
+            return redirect()->back()->with('error', 'service not found');
+        }
+        $service->refund = 'done';
+        $service->save();
+        return redirect()->back()->with('success', 'service refund Done');
+    }
 
 
 

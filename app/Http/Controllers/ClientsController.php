@@ -41,6 +41,7 @@ class ClientsController extends Controller
                 'service_name' => 'required|array|max:255',
                 'service_cost' => 'required|array|max:255',
                 'email' => 'required|string|email|unique:clients|max:255',
+                'password' => 'required|string|min:8|confirmed',
                 'mobile' => 'required|string|max:255|unique:clients',
                 'gender' => 'required|in:male,female',
                 'birth_date' => 'required|date',

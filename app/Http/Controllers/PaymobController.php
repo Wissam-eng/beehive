@@ -153,7 +153,7 @@ class PaymobController extends Controller
             $orderPayload = [
                 "auth_token" => $authToken,
                 "delivery_needed" => "false",
-                "amount_cents" => $orderData['total'] * 100,
+                "amount_cents" => floatval($orderData['total']) * 100,
                 "currency" => $orderData['currency'] ?? "EGP",
                 "items" => $orderData['items'] ?? []
             ];
@@ -220,7 +220,7 @@ class PaymobController extends Controller
 
             $paymentPayload = [
                 "auth_token" => $authToken,
-                "amount_cents" => $orderData['total'] * 100,
+                "amount_cents" => floatval($orderData['total']) * 100,
                 "expiration" => 3600,
                 "order_id" => $order->id,
                 "billing_data" => $billingData,

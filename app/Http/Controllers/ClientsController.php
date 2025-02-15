@@ -35,11 +35,21 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         try {
+
+
+            $last_clint = clients::where('email', $request->email)->where('status', 'inactive')->first();
+
+            if ($last_clint) {
+
+                $last_clint->forceDelete();
+            }
+
+
             // Validate the request
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'service_name' => 'required|array|max:255',
-                'service_cost' => 'required|array|max:255',
+                'service_cost' => 'required|max:255',
                 'email' => 'required|string|email|unique:clients|max:255',
                 'password' => 'required|string|min:8|confirmed',
                 'mobile' => 'required|string|max:255|unique:clients',
@@ -69,7 +79,7 @@ class ClientsController extends Controller
 
 
             // $input['service_cost'] = array_sum($request->service_cost);
-            $service_cost = array_sum(array_map('floatval', $request->service_cost));
+            $service_cost = $request->service_cost;
 
 
             if (is_array($request->service_name)) {
@@ -121,7 +131,7 @@ class ClientsController extends Controller
                     [
                         // "name" => "User Registration Fee",
                         'name' =>   $service_name,
-                        "amount_cents" => $service_cost * 100,
+                        "amount_cents" => floatval($service_cost) * 100,
                         "description" => "beehive for services",
                         "quantity" => 1
                     ]

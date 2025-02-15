@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -67,4 +67,10 @@ class Kernel extends HttpKernel
         'admins' => \App\Http\Middleware\AdminMiddleware::class,
 
     ];
+
+
+    protected function schedule(\Illuminate\Console\Scheduling\Schedule $schedule)
+    {
+        $schedule->command('users:delete-inactive')->hourly(); // تشغيله كل ساعة
+    }
 }

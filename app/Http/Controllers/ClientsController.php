@@ -185,7 +185,7 @@ class ClientsController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'service_name' => 'required|array|max:255',
-                'service_cost' => 'required|array|max:255',
+                'service_cost' => 'required',
             ]);
 
 
@@ -207,7 +207,7 @@ class ClientsController extends Controller
                 ], 404); // Not Found
             }
 
-            $service_cost = array_sum(array_map('floatval', $request->service_cost));
+            $service_cost = $request->service_cost;
 
 
             if (is_array($request->service_name)) {
@@ -242,7 +242,7 @@ class ClientsController extends Controller
                     [
                         // "name" => "User Registration Fee",
                         'name' =>   $service_name,
-                        "amount_cents" => $service_cost * 100,
+                        "amount_cents" => floatval($service_cost) * 100,
                         "description" => "beehive for services",
                         "quantity" => 1
                     ]

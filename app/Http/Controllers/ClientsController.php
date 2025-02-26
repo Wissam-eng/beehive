@@ -78,7 +78,6 @@ class ClientsController extends Controller
             }
 
 
-            // $input['service_cost'] = array_sum($request->service_cost);
             $service_cost = $request->service_cost;
 
 
@@ -102,7 +101,6 @@ class ClientsController extends Controller
             $input['password'] = Hash::make($request->password);
 
 
-            // dd($input['service_name']);
 
 
 
@@ -120,20 +118,17 @@ class ClientsController extends Controller
 
             // بيانات الطلب الخاص برسوم التسجيل
             $orderData = [
-                // 'total' => 100,
                 'total' =>  $service_cost, // رسوم اشتراك على سبيل المثال
                 'currency' => 'EGP',
                 'service_name' =>  $service_name,
                 'services' => $input['service_name'],
-                'services_all_cost' => $input['service_cost'],
-
+                'service_cost' => $input['service_cost'],
+                "quantity" => 1,
                 'items' => [
                     [
-                        // "name" => "User Registration Fee",
                         'name' =>   $service_name,
                         "amount_cents" => floatval($service_cost) * 100,
-                        "description" => "beehive for services",
-                        "quantity" => 1
+                        "description" => "beehive for services"
                     ]
                 ]
             ];
@@ -145,16 +140,17 @@ class ClientsController extends Controller
             $paymobController = new PaymobController();
             $response = $paymobController->processPayment($orderData, $userData);
 
-            if ($response['status'] === 'success') {
 
+            if ($response['status'] === 'success') {
 
 
 
 
                 return response()->json([
                     'success' => true,
-                    'payment_url' => $response['payment_url'],  // رابط الدفع
+                    'payment_url' => $response['payment_url'],
                     'data' => $new_client,
+                    'email_of_company' => 'lainavacompany@gmail.com',
                 ], 201); // Created
 
             } else {
@@ -168,6 +164,7 @@ class ClientsController extends Controller
                 ], 400); // Bad Request
             }
         } catch (\Exception $e) {
+
             return response()->json([
                 'success' => false,
                 'error' => $e->getMessage(),
@@ -177,7 +174,7 @@ class ClientsController extends Controller
 
 
 
-    public function add_service(Request $request, $id)
+    public function add_service(Request $request)
     {
         try {
 
@@ -198,7 +195,7 @@ class ClientsController extends Controller
             }
 
 
-            $client_id = clients::find($id);
+            $client_id = clients::find(auth()->user()->id);
 
             if (!$client_id) {
                 return response()->json([
@@ -229,22 +226,20 @@ class ClientsController extends Controller
                 'user_id' => $client_id->id
             ];
 
-            // بيانات الطلب الخاص برسوم التسجيل
+
+
+
             $orderData = [
-                // 'total' => 100,
                 'total' =>  $service_cost, // رسوم اشتراك على سبيل المثال
                 'currency' => 'EGP',
                 'service_name' =>  $service_name,
-                'services' => $request->service_name,
-                'services_all_cost' => $request->service_cost,
-
+                'service_cost' => $request->service_cost,
+                "quantity" => 1,
                 'items' => [
                     [
-                        // "name" => "User Registration Fee",
                         'name' =>   $service_name,
                         "amount_cents" => floatval($service_cost) * 100,
-                        "description" => "beehive for services",
-                        "quantity" => 1
+                        "description" => "beehive for services"
                     ]
                 ]
             ];
@@ -255,22 +250,19 @@ class ClientsController extends Controller
 
             // استدعاء كنترولر الدفع
             $paymobController = new PaymobController();
-            $response = $paymobController->processPayment($orderData, $userData);
+            $response = $paymobController->processPayment_new_order($orderData, $userData);
 
             if ($response['status'] === 'success') {
 
-
-
-
-
                 return response()->json([
                     'success' => true,
-                    'payment_url' => $response['payment_url'],  // رابط الدفع
+                    'payment_url' => $response['payment_url'],
+                    'email_of_company' => 'lainavacompany@gmail.com',
                 ], 201); // Created
 
             } else {
 
-                $client_id->forceDelete();
+
 
                 // عرض رسالة خطأ
                 return response()->json([
@@ -336,12 +328,6 @@ class ClientsController extends Controller
     }
 
 
-    public function edit(clients $clients)
-    {
-        //
-    }
-
-
 
 
     public function inactive_client(Request $request, $id)
@@ -370,6 +356,7 @@ class ClientsController extends Controller
             'name' => 'required|string|max:255',
             'mobile_wallet' => 'required|string|max:255',
             'account_number_bank' => 'required|string|max:255',
+            'status' => 'required|in:active,inactive',
         ]);
 
         if ($validator->fails()) {
@@ -408,18 +395,5 @@ class ClientsController extends Controller
         $client->status = 'active';
         $client->save();
         return redirect()->back()->with('success', 'Client active');
-    }
-
-
-
-    public function update(Request $request, clients $clients)
-    {
-        //
-    }
-
-
-    public function destroy(clients $clients)
-    {
-        //
     }
 }

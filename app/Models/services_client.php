@@ -18,5 +18,6 @@ class services_client extends Model
         'status',
         'order_id',
         'trans_id',
+        'referenceNumber',
     ];
 }

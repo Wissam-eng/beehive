@@ -55,9 +55,11 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    // 'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://2c34-156-205-75-139.ngrok-free.app/highlevel/beehive'),
 
-    'asset_url' => env('ASSET_URL' , 'http://localhost/highlevel/beehive'),
+    // 'asset_url' => env('ASSET_URL' , 'http://localhost/highlevel/beehive'),
+    'asset_url' => env('ASSET_URL' , 'https://2c34-156-205-75-139.ngrok-free.app/highlevel/beehive'),
 
     /*
     |--------------------------------------------------------------------------

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>BEEHIVE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="{{ asset('resources/views/favicon.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url('resources/views/favicon.png') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
@@ -33,15 +33,15 @@
 
 
     <link rel="stylesheet" type="text/css" media="screen"
-        href="{{ asset('resources/views/assets/css/perfect-scrollbar.min.css') }}" />
+        href="{{ url('resources/views/assets/css/perfect-scrollbar.min.css') }}" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('resources/views/assets/css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url('resources/views/assets/css/style.css') }}" />
 
     <link defer rel="stylesheet" type="text/css" media="screen"
-        href="{{ asset('resources/views/assets/css/animate.css') }}" />
+        href="{{ url('resources/views/assets/css/animate.css') }}" />
     <link rel="stylesheet" type="text/css"
-        href="{{ asset('resources/views/assets/css/file-upload-with-preview.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('resources/views/assets/css/flatpickr.min.css') }}" />
+        href="{{ url('resources/views/assets/css/file-upload-with-preview.min.css') }}" />
+    <link rel="stylesheet" href="{{ url('resources/views/assets/css/flatpickr.min.css') }}" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -49,10 +49,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="{{ asset('resources/views/assets/js/perfect-scrollbar.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/popper.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/tippy-bundle.umd.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/sweetalert.min.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/perfect-scrollbar.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/popper.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/tippy-bundle.umd.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/sweetalert.min.js') }}"></script>
 </head>
 
 <body x-data="main" class="relative overflow-x-hidden font-nunito text-sm font-normal antialiased"
@@ -308,9 +308,9 @@
                 class="sidebar fixed bottom-0 top-0 z-50 h-full min-h-screen w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-all duration-300">
                 <div class="h-full bg-white dark:bg-[#0e1726]">
                     <div class="flex items-center justify-between px-4 py-3">
-                        <a href="{{ asset('/home') }}" class="main-logo flex shrink-0 items-center">
+                        <a href="{{ url('/home') }}" class="main-logo flex shrink-0 items-center">
                             <img class="ml-[5px] w-8 flex-none"
-                                src="{{ asset('resources/views/assets/images/beehive.webp') }}" alt="image" />
+                                src="{{ url('resources/views/assets/images/beehive.webp') }}" alt="image" />
                             <span
                                 class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">Beehive</span>
                         </a>
@@ -339,7 +339,7 @@
 
 
 
-                    <a href="{{ asset('clients') }}">
+                    <a href="{{ url('clients') }}">
 
                         <div class="menu nav-item">
                             <button type="button" class="nav-link group"
@@ -370,7 +370,7 @@
 
                         </div>
                     </a>
-                    <a href="{{ asset('orders') }}">
+                    <a href="{{ url('orders') }}">
 
                         <div class="menu nav-item">
                             <button type="button" class="nav-link group"
@@ -401,7 +401,7 @@
 
                         </div>
                     </a>
-                    <a href="{{ asset('orders_in_active') }}">
+                    <a href="{{ url('orders_in_active') }}">
 
                         <div class="menu nav-item">
                             <button type="button" class="nav-link group"
@@ -433,7 +433,7 @@
 
                         </div>
                     </a>
-                    <a href="{{ asset('users') }}">
+                    <a href="{{ url('users') }}">
 
                         <div class="menu nav-item">
                             <button type="button" class="nav-link group"
@@ -466,7 +466,7 @@
                     </a>
 
 
-                    <a href="{{ asset('create') }}">
+                    <a href="{{ url('create') }}">
 
                         <div class="menu nav-item">
                             <button type="button" class="nav-link group"
@@ -498,7 +498,7 @@
 
                         </div>
                     </a>
-                    <a href="{{ asset('ClientsInActive') }}">
+                    <a href="{{ url('ClientsInActive') }}">
 
                         <div class="menu nav-item">
                             <button type="button" class="nav-link group"
@@ -545,9 +545,9 @@
                 <div class="shadow-sm">
                     <div class="relative flex w-full items-center bg-white px-5 py-2.5 dark:bg-[#0e1726]">
                         <div class="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
-                            <a href="{{ asset('/home') }}" class="main-logo flex shrink-0 items-center">
+                            <a href="{{ url('/home') }}" class="main-logo flex shrink-0 items-center">
                                 <img class="inline w-8 ltr:-ml-1 rtl:-mr-1"
-                                    src="{{ asset('resources/views/assets/images/beehive.webp') }}" alt="image" />
+                                    src="{{ url('resources/views/assets/images/beehive.webp') }}" alt="image" />
                                 <span
                                     class="hidden align-middle text-2xl font-semibold transition-all duration-300 ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light md:inline">Beehive</span>
                             </a>
@@ -685,7 +685,7 @@
                                                 <div class="grid place-content-center rounded">
                                                     <div class="relative h-12 w-12">
                                                         <img class="h-12 w-12 rounded-full object-cover"
-                                                            :src="`{{ asset('resources/views/assets/images/${notification.profile}') }}`"
+                                                            :src="`{{ url('resources/views/assets/images/${notification.profile}') }}`"
                                                             alt="image" />
                                                         <span
                                                             class="absolute bottom-0 right-[6px] block h-2 w-2 rounded-full bg-success"></span>
@@ -754,7 +754,7 @@
                                 <a href="javascript:;" class="group relative" @click="toggle()">
                                     <span><img
                                             class="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
-                                            src="{{ Auth::user()->img ? asset(Auth::user()->img) : asset('resources/views/assets/images/user-profile.jpeg') }}"
+                                            src="{{ Auth::user()->img ? asset(Auth::user()->img) : url('resources/views/assets/images/user-profile.jpeg') }}"
                                             alt="image" /></span>
                                 </a>
                                 <ul x-cloak x-show="open" x-transition x-transition.duration.300ms
@@ -763,7 +763,7 @@
                                         <div class="flex items-center px-4 py-4">
                                             <div class="flex-none">
                                                 <img class="h-10 w-10 rounded-md object-cover"
-                                                    src="{{ Auth::user()->img ? asset(Auth::user()->img) : asset('resources/views/assets/images/user-profile.jpeg') }}"
+                                                    src="{{ Auth::user()->img ? asset(Auth::user()->img) : url('resources/views/assets/images/user-profile.jpeg') }}"
                                                     alt="image" />
                                             </div>
                                             <div class="truncate ltr:pl-4 rtl:pr-4">
@@ -841,15 +841,15 @@
         </div>
     </div>
 
-    <script src="{{ asset('resources/views/assets/js/alpine-collaspe.min.js') }}"></script>
-    <script src="{{ asset('resources/views/assets/js/alpine-persist.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/alpine-ui.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/alpine-focus.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/alpine.min.js') }}"></script>
-    <script src="{{ asset('resources/views/assets/js/custom.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/apexcharts.js') }}"></script>
-    <script src="{{ asset('resources/views/assets/js/file-upload-with-preview.iife.js') }}"></script>
-    <script src="{{ asset('resources/views/assets/js/flatpickr.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/alpine-collaspe.min.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/alpine-persist.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/alpine-ui.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/alpine-focus.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/alpine.min.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/custom.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/apexcharts.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/file-upload-with-preview.iife.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/flatpickr.js') }}"></script>
 
     <style>
         textarea {

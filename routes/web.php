@@ -36,15 +36,18 @@ Route::post('resetpassword', [ForgotPasswordController::class, 'resetpassword'])
 
 
 
-Route::get('/thankyou', function () {
+Route::get('thankyou', function () {
     return view('thankyou');
-});
+})->name('thankyou');
 
 // Route::get('/' , [CheckOutController::class, 'index']);
 
 //Paymob Routes
 Route::post('/credit', [PaymobController::class, 'credit'])->name('checkout'); // this route send all functions data to paymob
 Route::get('/callback', [PaymobController::class, 'callback'])->name('callback'); // this route get all reponse data to paymob
+
+
+Route::get('/getcallback', [PaymobController::class, 'getcallback'])->name('getcallback');
 
 
 

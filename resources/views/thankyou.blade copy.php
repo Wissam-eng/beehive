@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>VRISTO - Multipurpose Tailwind Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="{{ asset('resources/views/assets/favicon.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url('resources/views/assets/favicon.png') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('resources/views/assets/css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url('resources/views/assets/css/style.css') }}" />
 </head>
 
 <body x-data="main" class="relative overflow-x-hidden font-nunito text-sm font-normal antialiased"
@@ -32,11 +32,11 @@
                     <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">{{ session('success') }}
                     </h3>
                     <p> Have a great day! </p>
-                    {{-- <div class="py-10 text-center">
+                    <div class="py-10 text-center">
                         <a href="{{ route('login') }}"
                             class="btn btn-gradient mx-auto !mt-7 w-max border-0 uppercase shadow-none">LogIn</a>
                     </div>
-                </div> --}}
+                </div>
             </div>
         </div>
     @elseif (session('error'))
@@ -66,13 +66,13 @@
 
 
 
-    <script src="{{ asset('resources/views/assets/js/alpine-collaspe.min.js') }}"></script>
-    <script src="{{ asset('resources/views/assets/js/alpine-persist.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/alpine-ui.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/alpine-focus.min.js') }}"></script>
-    <script defer src="{{ asset('resources/views/assets/js/alpine.min.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/alpine-collaspe.min.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/alpine-persist.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/alpine-ui.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/alpine-focus.min.js') }}"></script>
+    <script defer src="{{ url('resources/views/assets/js/alpine.min.js') }}"></script>
 
-    <script src="{{ asset('resources/views/assets/js/custom.js') }}"></script>
+    <script src="{{ url('resources/views/assets/js/custom.js') }}"></script>
 
     <script>
         // main section

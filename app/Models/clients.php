@@ -45,6 +45,8 @@ class clients extends Authenticatable implements JWTSubject
         'marital_status',
         'num_of_children',
         'Academic_qualification',
+        'email_verified_at',
+        'otp',
     ];
 
     /**

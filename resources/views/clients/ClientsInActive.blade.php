@@ -25,7 +25,7 @@
                         <h5 class="text-lg font-semibold dark:text-white-light">العملاء الغير نشطون</h5>
                     </div>
                     <div class="table-responsive">
-                        <table id="usersTable">
+                        <table id="usersTable" class="usersTable">
                             <thead>
                                 <tr>
                                     <th class="ltr:rounded-l-md rtl:rounded-r-md">الاسم</th>
@@ -87,7 +87,6 @@
                                                     class="badge bg-success shadow-md dark:group-hover:bg-transparent">عرض</span>
                                             </a>
                                         </td>
-
                                         <td>
                                             <form id="active-form-{{ $user->id }}"
                                                 action="{{ route('active_client', ['id' => $user->id]) }}" method="POST"
@@ -106,9 +105,10 @@
                                                     @csrf
                                                 </form>
                                                 <button type="button" class="btn btn-success ltr:mr-1 rtl:ml-1"
-                                                    onclick="confirmAction('{{ $user->id }}', 'refund')">
-                                                    تاكيد المرتجع
-                                                </button>
+                                                onclick="confirmRefund('{{ $user->id }}', 'refund')">
+                                                تاكيد المرتجع
+                                            </button>
+
                                             @endif
                                         </td>
 
@@ -124,5 +124,44 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmAction(userId, action) {
+            let actionText, successMessage, confirmButtonText, formId;
+
+            if (action === 'active') {
+                actionText = 'ستقوم بتفعيل العميل مرة أخرى!';
+                successMessage = 'تم تفعيل العميل بنجاح.';
+                confirmButtonText = 'نعم، قم بتفعيله!';
+                formId = 'active-form-' + userId;
+            } else if (action === 'refund') {
+                actionText = 'هل أنت متأكد أنك تريد تأكيد المرتجع؟';
+                successMessage = 'تم تأكيد المرتجع بنجاح.';
+                confirmButtonText = 'نعم، تأكيد المرتجع!';
+                formId = 'refund-form-' + userId;
+            } else {
+                return; // إذا كان الإجراء غير معروف، لا تفعل شيئًا
+            }
+
+            Swal.fire({
+                title: "هل أنت متأكد؟",
+                text: actionText,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: confirmButtonText
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                    Swal.fire({
+                        title: "تم بنجاح!",
+                        text: successMessage,
+                        icon: "success"
+                    });
+                }
+            });
+        }
+    </script>
     <!-- end main content section -->
 @endsection

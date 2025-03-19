@@ -387,7 +387,72 @@
                                             fill="currentColor" />
                                     </svg>
                                     <span
-                                        class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">الطلبات</span>
+                                        class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">طلبات
+                                        الخدمات</span>
+                                </div>
+                                <div class="rtl:rotate-180"
+                                    :class="{ '!rotate-90': activeDropdown === 'dashboard' }">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                            </button>
+
+                        </div>
+                    </a>
+                    <a href="{{ asset('orders_cancel') }}">
+
+                        <div class="menu nav-item">
+                            <button type="button" class="nav-link group"
+                                :class="{ 'active': activeDropdown === 'dashboard' }"
+                                @click="activeDropdown === 'dashboard' ? activeDropdown = null : activeDropdown = 'dashboard'">
+                                <div class="flex items-center">
+                                    <svg class="shrink-0 group-hover:!text-primary" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.5"
+                                            d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M9 17.25C8.58579 17.25 8.25 17.5858 8.25 18C8.25 18.4142 8.58579 18.75 9 18.75H15C15.4142 18.75 15.75 18.4142 15.75 18C15.75 17.5858 15.4142 17.25 15 17.25H9Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    <span
+                                        class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">طلبات
+                                        الغاء الخدمات</span>
+                                </div>
+                                <div class="rtl:rotate-180"
+                                    :class="{ '!rotate-90': activeDropdown === 'dashboard' }">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                            </button>
+
+                        </div>
+                    </a>
+                    <a href="{{ asset('clients_cancel') }}">
+
+                        <div class="menu nav-item">
+                            <button type="button" class="nav-link group"
+                                :class="{ 'active': activeDropdown === 'dashboard' }"
+                                @click="activeDropdown === 'dashboard' ? activeDropdown = null : activeDropdown = 'dashboard'">
+                                <div class="flex items-center">
+                                    <svg class="shrink-0 group-hover:!text-primary" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.5"
+                                            d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M9 17.25C8.58579 17.25 8.25 17.5858 8.25 18C8.25 18.4142 8.58579 18.75 9 18.75H15C15.4142 18.75 15.75 18.4142 15.75 18C15.75 17.5858 15.4142 17.25 15 17.25H9Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    <span
+                                        class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">طلبات
+                                        الغاء العملاء</span>
                                 </div>
                                 <div class="rtl:rotate-180"
                                     :class="{ '!rotate-90': activeDropdown === 'dashboard' }">
@@ -433,6 +498,46 @@
 
                         </div>
                     </a>
+
+                    <a href="{{ asset('ClientsInActive') }}">
+
+                        <div class="menu nav-item">
+                            <button type="button" class="nav-link group"
+                                :class="{ 'active': activeDropdown === 'dashboard' }"
+                                @click="activeDropdown === 'dashboard' ? activeDropdown = null : activeDropdown = 'dashboard'">
+                                <div class="flex items-center">
+                                    <svg class="shrink-0 group-hover:!text-primary" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.5"
+                                            d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"
+                                            fill="currentColor" />
+                                        <path
+                                            d="M9 17.25C8.58579 17.25 8.25 17.5858 8.25 18C8.25 18.4142 8.58579 18.75 9 18.75H15C15.4142 18.75 15.75 18.4142 15.75 18C15.75 17.5858 15.4142 17.25 15 17.25H9Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    <span
+                                        class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">العملاء
+                                        الغير نشطون
+                                    </span>
+                                </div>
+                                <div class="rtl:rotate-180"
+                                    :class="{ '!rotate-90': activeDropdown === 'dashboard' }">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                            </button>
+
+                        </div>
+                    </a>
+
+
+
+
+
+
                     <a href="{{ asset('users') }}">
 
                         <div class="menu nav-item">
@@ -498,39 +603,7 @@
 
                         </div>
                     </a>
-                    <a href="{{ asset('ClientsInActive') }}">
 
-                        <div class="menu nav-item">
-                            <button type="button" class="nav-link group"
-                                :class="{ 'active': activeDropdown === 'dashboard' }"
-                                @click="activeDropdown === 'dashboard' ? activeDropdown = null : activeDropdown = 'dashboard'">
-                                <div class="flex items-center">
-                                    <svg class="shrink-0 group-hover:!text-primary" width="20" height="20"
-                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.5"
-                                            d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"
-                                            fill="currentColor" />
-                                        <path
-                                            d="M9 17.25C8.58579 17.25 8.25 17.5858 8.25 18C8.25 18.4142 8.58579 18.75 9 18.75H15C15.4142 18.75 15.75 18.4142 15.75 18C15.75 17.5858 15.4142 17.25 15 17.25H9Z"
-                                            fill="currentColor" />
-                                    </svg>
-                                    <span
-                                        class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">العملاء
-                                        الغير نشطون
-                                    </span>
-                                </div>
-                                <div class="rtl:rotate-180"
-                                    :class="{ '!rotate-90': activeDropdown === 'dashboard' }">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                            </button>
-
-                        </div>
-                    </a>
 
 
 
@@ -851,6 +924,11 @@
     <script src="{{ asset('resources/views/assets/js/file-upload-with-preview.iife.js') }}"></script>
     <script src="{{ asset('resources/views/assets/js/flatpickr.js') }}"></script>
 
+
+
+
+
+
     <style>
         textarea {
             border: black 1px solid;
@@ -863,29 +941,30 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function confirmAction(userId, action) {
-            let actionText = action === 'inactive' ? 'You won\'t be able to revert this!' :
-                'You will make the client active again!';
-            let successMessage = action === 'inactive' ? 'The client has been made inactive.' :
-                'The client has been activated.';
+
+            let actionText = action === 'inactive' ? 'لن تتمكن من التراجع عن هذا!' :
+                'ستقوم بتفعيل العميل مرة أخرى!';
+            let successMessage = action === 'inactive' ? 'تم جعل العميل غير نشط.' :
+                'تم تفعيل العميل بنجاح.';
 
             Swal.fire({
-                title: "Are you sure?",
+                title: "هل أنت متأكد؟",
                 text: actionText,
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: action === 'inactive' ? "Yes, make inactive!" : "Yes, activate it!"
+                confirmButtonText: action === 'inactive' ? "نعم، اجعله غير نشط!" : "نعم، قم بتفعيله!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Submit the appropriate form based on the action
+                    // إرسال النموذج المناسب بناءً على الإجراء
                     if (action === 'inactive') {
                         document.getElementById('inactive-form-' + userId).submit();
-                    } else {
+                    } else if (action === 'active') { // تعديل elseif إلى else if
                         document.getElementById('active-form-' + userId).submit();
                     }
                     Swal.fire({
-                        title: "Success!",
+                        title: "تم بنجاح!",
                         text: successMessage,
                         icon: "success"
                     });
@@ -894,11 +973,35 @@
         }
     </script>
 
+    <script>
+        function confirmRefund(clientId) {
+            console.log(clientId);
+
+            Swal.fire({
+                title: "هل أنت متأكد؟",
+                text: "لن تتمكن من التراجع عن هذه العملية!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "نعم، قم بالاسترجاع!",
+                cancelButtonText: "إلغاء"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("refund-form-" + clientId).submit();
+                }
+            });
+        }
+    </script>
+
 
     <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable({
+            $('.usersTable').DataTable({
                 responsive: true, // Makes the table responsive
+                order: [
+                    [0, 'asc']
+                ], // ترتيب العمود الأول (المؤشر 0) تصاعديًا
                 language: {
                     search: "Search:",
                     lengthMenu: "Show _MENU_ entries",
@@ -918,44 +1021,6 @@
 
     <!-- script -->
 
-    <script>
-        function confirmAction(userId, action) {
-            const formId = action === 'active' ? `active-form-${userId}` : `refund-form-${userId}`;
-
-            Swal.fire({
-                title: "هل أنت متأكد؟",
-                text: action === 'active' ? "هل ترغب في تنشيط الحساب؟" : "هل ترغب في تاكيد المرتجع",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "نعم، نفذ الإجراء!",
-                cancelButtonText: "إلغاء"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById(formId).submit();
-                }
-            });
-        }
-    </script>
-    {{-- <script>
-        function confirmDelete(itemId) {
-            Swal.fire({
-                title: "هل أنت متأكد؟",
-                text: "لن تتمكن من التراجع عن هذا الإجراء!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "نعم، احذف!",
-                cancelButtonText: "إلغاء"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById(`delete-form-${itemId}`).submit();
-                }
-            });
-        }
-    </script> --}}
 
 
     <script>

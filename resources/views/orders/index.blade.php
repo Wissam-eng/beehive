@@ -24,7 +24,7 @@
                         <h5 class="text-lg font-semibold dark:text-white-light">الطلبات</h5>
                     </div>
                     <div class="table-responsive">
-                        <table id="servicesTable">
+                        <table id="servicesTable" class="usersTable">
                             <thead>
                                 <tr>
                                     <th class="ltr:rounded-l-md rtl:rounded-r-md">service</th>
@@ -42,8 +42,8 @@
                                             </div>
                                         </td>
                                         <td class="text-primary">{{ $service->service_cost }}</td>
-                                        <td><a href="apps-invoice-preview.html">{{ $service->payment_status }}</a></td>
-                                        <td><a href="apps-invoice-preview.html">{{ $service->status }}</a></td>
+                                        <td>{{ $service->payment_status }}</td>
+                                        <td>{{ $service->status }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -233,13 +233,17 @@ class PaymobController extends Controller
         $currency = "EGP"; // الجنيه المصري
         // $returnUrl = route('fawry.callback');
         // $returnUrl = 'https://highleveltecknology.com/beehive/callback';
-        $returnUrl = 'https://2c34-156-205-75-139.ngrok-free.app/highlevel/beehive/callback';
+        // $returnUrl = 'https://2c34-156-205-75-139.ngrok-free.app/highlevel/beehive/callback';
+        $returnUrl = 'https://khaleiatnahel.com/beehive/callback';
 
         $itemId = $newservice->id;
         $service_cost = number_format(100, 2, '.', '');
 
+        // $merchantCode = $this->merchantCode;
+        $merchantCode = 770000020602;
 
-        $signatureString = $this->merchantCode . $merchantRefNum . ""  . $returnUrl . $itemId . $amount . $service_cost  . $this->securityKey;
+
+        $signatureString = $merchantCode . $merchantRefNum . ""  . $returnUrl . $itemId . $amount . $service_cost  . $this->securityKey;
         $signature = hash('sha256', $signatureString);
 
 
@@ -247,9 +251,11 @@ class PaymobController extends Controller
             'order_id' => $merchantRefNum
         ]);
 
+
+
         // تجهيز بيانات الطلب
         $data = [
-            "merchantCode" => $this->merchantCode,
+            "merchantCode" => $merchantCode,
             "merchantRefNum" => $merchantRefNum,
             "customerMobile" => $userData['phone_number'],
             "language" => "en-gb",
@@ -273,30 +279,30 @@ class PaymobController extends Controller
 
 
         // إرسال الطلب إلى API فوري
-        $response = Http::withHeaders(['Content-Type' => 'application/json'])->post($this->apiUrl, $data);
+        // $response = Http::withHeaders(['Content-Type' => 'application/json'])->post($this->apiUrl, $data);
 
-        $result = $response->json();
-
-
-        if ($response->successful()) {
-            // return $result;
-            if ($response->body()) {
+        // $result = $response->json();
 
 
-                $paymentUrl =  $response->body();
+        // if ($response->successful()) {
+        //     // return $result;
+        //     if ($response->body()) {
 
 
-                return ['status' => 'success', 'payment_url' => $paymentUrl, "merchantRefNum" => $merchantRefNum];
-            }
-        } else {
+        //         $paymentUrl =  $response->body();
 
 
-            $newservice->forceDelete();
-            return $result;
-        }
+        //         return ['status' => 'success', 'payment_url' => $paymentUrl];
+        //     }
+        // } else {
 
 
-        return null;
+        //     $newservice->forceDelete();
+        //     return $result;
+        // }
+
+
+        return $data;
     }
 
 

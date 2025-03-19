@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 return new class extends Migration
 {
@@ -34,6 +36,21 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
+
+
+        // إضافة حساب الأدمن بعد إنشاء الجدول
+        DB::table('admins')->insert([
+            'name' => 'Super Admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('1'), // تشفير كلمة المرور
+            'birth_date' => '1990-01-01',
+            'img' => 'default.png',
+            'mobile' => '123456789',
+            'gender' => 'male',
+            'status' => 'active',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**

@@ -24,7 +24,7 @@
                         <h5 class="text-lg font-semibold dark:text-white-light">Users</h5>
                     </div>
                     <div class="table-responsive">
-                        <table id="usersTable">
+                        <table id="usersTable" class="usersTable">
                             <thead>
                                 <tr>
                                     <th class="ltr:rounded-l-md rtl:rounded-r-md">Name</th>

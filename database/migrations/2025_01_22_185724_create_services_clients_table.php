@@ -23,6 +23,9 @@ return new class extends Migration
 
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
 
+            $table->enum('refund', ['paid', 'not_paid'])->default('not_paid');
+
+
             $table->enum('payment_status', ['paid', 'unpaid', 'pending'])->default('unpaid');
             $table->enum('status', ['active', 'inactive', 'canceled'])->default('inactive');
             $table->timestamps();

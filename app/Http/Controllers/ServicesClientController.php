@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\orders_cancel;
 use App\Models\clients;
 use App\Models\services;
 use App\Models\services_client;
@@ -16,7 +17,7 @@ class ServicesClientController extends Controller
     public function index()
     {
 
-        $services = services_client::where('status', 'active')->get();
+        $services = services_client::where('status', 'active')->orderBy('created_at', 'desc')->get();
         return view('orders.index', compact('services'));
     }
 
@@ -24,21 +25,11 @@ class ServicesClientController extends Controller
     public function orders_in_active()
     {
 
-        $services = services_client::where('status', 'inactive')->get();
+        $services = services_client::where('status', 'inactive')->orderBy('created_at', 'desc')->get();
         return view('orders.inActive_order', compact('services'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -51,9 +42,7 @@ class ServicesClientController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show($id)
     {
         $client = clients::find($id);
@@ -62,7 +51,7 @@ class ServicesClientController extends Controller
         }
 
 
-        $services = services_client::where('client_id', $id)->get();
+        $services = services_client::where('client_id', $id)->orderBy('created_at', 'desc')->get();
 
         return view('clients.show_details', compact('services', 'client'));
     }
@@ -70,12 +59,15 @@ class ServicesClientController extends Controller
 
     public function show_all_my_order($id)
     {
+        $id = auth()->user()->id;
         $client = clients::find($id);
         if (!$client) {
             return response()->json(['error', 'Client not found'], 401);
         }
 
-        $services = services_client::where('client_id', $id)->get();
+
+
+        $services = services_client::where('client_id', $id)->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             'success' => true,
@@ -117,7 +109,7 @@ class ServicesClientController extends Controller
         }
 
         // منطقك هنا بعد التحقق الناجح
-        $order = services_client::find( $data['order_id'])->where('client_id', $id)->first();
+        $order = services_client::find($data['order_id'])->where('client_id', $id)->first();
 
         if (!$order) {
             return response()->json([
@@ -134,10 +126,6 @@ class ServicesClientController extends Controller
 
 
 
-    public function edit(services_client $services_client)
-    {
-        //
-    }
 
 
 
@@ -146,28 +134,26 @@ class ServicesClientController extends Controller
         $services_client = services_client::find($id);
 
         if (!$services_client) {
-            return response()->json(['error' => 'Order not found'], 404);
+            return redirect()->back()->with('error', 'Order not found');
         }
 
-        $validator = validator($request->all(), [
-            'status' => 'required|string|in:active,inactive',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => 'Validation error: ' . $validator->errors()], 422);
-        }
 
         $services_client->update([
-            'status' => $request->status
+            'status' => 'inactive',
         ]);
 
-        return response()->json(['message' => 'Order status updated successfully'], 200);
-    }
+        if ($services_client->status == 'inactive') {
+            $order_cancel = orders_cancel::where('order_id', $id)->first();
+
+            if ($order_cancel) {
+                $order_cancel->update([
+                    'status' => 'Done',
+                ]);
+            }
+        }
 
 
 
-    public function destroy(services_client $services_client)
-    {
-        //
+        return redirect()->back()->with('success', 'Order status updated successfully');
     }
 }

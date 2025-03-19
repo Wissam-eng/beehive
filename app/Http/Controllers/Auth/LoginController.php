@@ -45,6 +45,16 @@ class LoginController extends Controller
         if (Auth::guard('clients')->attempt($request->only('mobile', 'password'))) {
 
             $client = Auth::guard('clients')->user();
+
+
+            if ($client->email_verified_at == null) {
+                return response()->json(['error' => 'البريد الالكتروني غير مفعل.'], 401);
+            }
+
+            if ($client->status == 'inactive') {
+                return response()->json(['error' => 'الحساب غير مفعل.'], 401);
+            }
+
             $token = Auth::guard('clients')->login($client);
 
             return response()->json([

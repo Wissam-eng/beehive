@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\clients;
+use App\Models\clients_cancel;
+use App\Models\services_client;
 use App\Http\Controllers\PaymobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\OTPMail;
+use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Validation\Rule;
+
 
 class ClientsController extends Controller
 {
@@ -16,7 +23,7 @@ class ClientsController extends Controller
 
     public function index()
     {
-        $clients = clients::where('status', 'active')->get();
+        $clients = clients::where('status', 'active')->orderBy('created_at', 'desc')->get();
         return view('clients.index', compact('clients'));
     }
 
@@ -27,9 +34,15 @@ class ClientsController extends Controller
     public function ClientsInActive()
     {
 
-        $clients = clients::where('status', 'inactive')->get();
+        $clients = clients::where('status', 'inactive')->orderBy('created_at', 'desc')->get();
         return view('clients.ClientsInActive', compact('clients'));
     }
+
+
+
+
+
+
 
 
     public function store(Request $request)
@@ -37,19 +50,25 @@ class ClientsController extends Controller
         try {
 
 
-            $last_clint = clients::where('email', $request->email)->where('status', 'inactive')->first();
+            $last_clint = Clients::where('email', $request->email)->whereNull('email_verified_at')->first();
 
             if ($last_clint) {
 
                 $last_clint->forceDelete();
             }
 
+            $last_clint = Clients::where('email', $request->email)->where('status', 'inactive')->first();
+
+            if ($last_clint) {
+
+                $last_clint->forceDelete();
+            }
 
             // Validate the request
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
-                'service_name' => 'required|array|max:255',
-                'service_cost' => 'required|max:255',
+                // 'service_name' => 'nullable|array|max:255',
+                // 'service_cost' => 'nullable|max:255',
                 'email' => 'required|string|email|unique:clients|max:255',
                 'password' => 'required|string|min:8|confirmed',
                 'mobile' => 'required|string|max:255|unique:clients',
@@ -78,19 +97,6 @@ class ClientsController extends Controller
             }
 
 
-            $service_cost = $request->service_cost;
-
-
-            if (is_array($request->service_name)) {
-
-                $service_name = implode('_', $request->service_name);
-            } else {
-
-                $service_name = $request->service_name;
-            }
-
-
-
             $input = $request->except(['img']);
             if ($request->hasFile('img')) {
                 $file = $request->file('img');
@@ -104,73 +110,112 @@ class ClientsController extends Controller
 
 
 
+
             // Save the client
             $new_client = clients::create($input);
 
-            $userData = [
-                'first_name' => $request->name,
-                'last_name' => $request->name,
-                'email' => $request->email,
-                'password' => $request->password,
-                'phone_number' => $request->mobile,
-                'user_id' => $new_client->id
-            ];
+            $otp = rand(1000, 9999);
 
-            // بيانات الطلب الخاص برسوم التسجيل
-            $orderData = [
-                'total' =>  $service_cost, // رسوم اشتراك على سبيل المثال
-                'currency' => 'EGP',
-                'service_name' =>  $service_name,
-                'services' => $input['service_name'],
-                'service_cost' => $input['service_cost'],
-                "quantity" => 1,
-                'items' => [
-                    [
-                        'name' =>   $service_name,
-                        "amount_cents" => floatval($service_cost) * 100,
-                        "description" => "beehive for services"
-                    ]
-                ]
-            ];
+            $new_client->update(['otp' => $otp]);
 
+            $verificationLink = env('APP_URL') . '/getotp';
 
+            Mail::to($request->email)->send(new OTPMail($otp, $verificationLink));
 
+            return response()->json([
+                'success' => true,
+                'data' => 'Client created successfully... but we sent you an OTP to your email .. verify it first'
 
-            // استدعاء كنترولر الدفع
-            $paymobController = new PaymobController();
-            $response = $paymobController->processPayment($orderData, $userData);
-
-
-            if ($response['status'] === 'success') {
-
-
-
-
-                return response()->json([
-                    'success' => true,
-                    'payment_url' => $response['payment_url'],
-                    'data' => $new_client,
-                    'email_of_company' => 'lainavacompany@gmail.com',
-                ], 201); // Created
-
-            } else {
-
-                $new_client->forceDelete();
-
-                // عرض رسالة خطأ
-                return response()->json([
-                    'success' => false,
-                    'message' => $response['message'],  // عرض رسالة خطأ في حالة فشل الدفع
-                ], 400); // Bad Request
-            }
+            ], 201);
         } catch (\Exception $e) {
-
             return response()->json([
                 'success' => false,
                 'error' => $e->getMessage(),
             ], 500); // Internal Server Error
         }
     }
+
+
+
+
+    public function update(Request $request)
+    {
+        try {
+            $id = auth()->user()->id;
+
+            // جلب العميل
+            $client = Clients::findOrFail($id);
+
+            // التحقق من البيانات المدخلة
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('clients', 'email')->ignore($id)
+                ],
+                'mobile' => [
+                    'required',
+                    Rule::unique('clients', 'mobile')->ignore($id)
+                ],
+                'gender' => 'required|in:male,female',
+                'birth_date' => 'required|date',
+                'age' => 'nullable|integer|min:1|max:120',
+                'city' => 'nullable|string|max:255',
+                'work' => 'nullable|string|max:255',
+                'center' => 'nullable|string|max:255',
+                'landline' => 'nullable|string|max:255',
+                'na_number' => 'nullable|string|max:255',
+                'governorate' => 'nullable|string|max:255',
+                'village_street' => 'nullable|string|max:255',
+                'another_mobile' => [
+                    'nullable',
+                    Rule::unique('clients', 'another_mobile')->ignore($id)
+                ],
+                'num_of_children' => 'nullable|integer|min:0',
+                'marital_status' => 'nullable|in:single,married',
+                'academic_qualification' => 'nullable|string|max:255',
+                'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
+
+            // جمع البيانات بدون الصورة وكلمة المرور
+            $input = $request->except(['img', 'password']);
+
+            // تحديث الصورة إذا وُجِدت
+            if ($request->hasFile('img')) {
+                $file = $request->file('img');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('images/clients', $filename, 'public');
+                $input['img'] = 'storage/' . $path;
+            }
+
+            // تحديث كلمة المرور إذا وُجدت
+
+
+            // تحديث البيانات
+            $client->update($input);
+
+            return response()->json([
+                'success' => true,
+                'user' => $client,
+                'message' => 'Client updated successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
 
 
 
@@ -252,11 +297,14 @@ class ClientsController extends Controller
             $paymobController = new PaymobController();
             $response = $paymobController->processPayment_new_order($orderData, $userData);
 
-            if ($response['status'] === 'success') {
+            // dd($response);
+
+            if ($response) {
 
                 return response()->json([
                     'success' => true,
-                    'payment_url' => $response['payment_url'],
+                    // 'payment_url' => $response['payment_url'],
+                    'payment_data' => $response,
                     'email_of_company' => 'lainavacompany@gmail.com',
                 ], 201); // Created
 
@@ -337,8 +385,40 @@ class ClientsController extends Controller
             return redirect()->back()->with('error', 'Client not found');
         }
 
+
+
+
         $client->status = 'inactive';
         $client->save();
+
+
+
+        if ($client->status == 'inactive') {
+
+            $oreder = services_client::where('client_id', $id)->orderBy('created_at', 'desc')->get();
+            foreach ($oreder as $order) {
+                $order->status = 'inactive';
+                $order->save();
+            }
+
+            $client_cancel = clients_cancel::where(['client_id' => $id, 'status' => 'pending'])->first();
+
+
+
+            if ($client_cancel) {
+
+                $client_cancel->update([
+                    'status' => 'Done',
+                ]);
+            }
+        }
+
+
+
+
+
+
+
         return redirect()->back()->with('success', 'Client Inactive');
     }
 

@@ -9,6 +9,8 @@ use App\Http\Controllers\ServicesClientController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\PaymobController;
 use App\Http\Controllers\CheckOutController;
+use App\Http\Controllers\OrdersCancelController;
+use App\Http\Controllers\ClientsCancelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,11 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('login');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+
+Route::get('getotp', [ForgotPasswordController::class, 'getotp'])->name('getotp');
+
+Route::post('verfiy_email', [ForgotPasswordController::class, 'verfiy_email'])->name('verfiy_email');
 
 Route::get('email', [ForgotPasswordController::class, 'email'])->name('email');
 Route::post('sendOtp', [ForgotPasswordController::class, 'sendOtp'])->name('sendOtp');
@@ -54,6 +60,15 @@ Route::get('/getcallback', [PaymobController::class, 'getcallback'])->name('getc
 
 // Authenticated Routes
 Route::middleware(['auth:admin_web'])->group(function () {
+
+
+    Route::post('inactive_order/{id}', [ServicesClientController::class, 'inactive_order'])->name('inactive_order');
+
+    Route::resource('orders_cancel', OrdersCancelController::class);
+    Route::resource('clients_cancel', ClientsCancelController::class);
+
+
+
 
     // Dashboard Routes
     Route::get('home', [HomeController::class, 'index'])->name('home');

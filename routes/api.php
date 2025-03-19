@@ -7,6 +7,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\ServicesClientController;
+use App\Http\Controllers\OrdersCancelController;
+use App\Http\Controllers\ClientsCancelController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,11 +33,37 @@ Route::post('loginWithJWT', [LoginController::class, 'loginWithJWT']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 
+
+//----------------RESET PASSWORD & VERFIY EMAIL-----------------------------
+Route::post('sendOtp', [ForgotPasswordController::class, 'sendOtp_api'])->name('sendOtp');
+Route::post('checkOtp', [ForgotPasswordController::class, 'receiveOtp_api'])->name('checkOtp');
+Route::post('resetpassword', [ForgotPasswordController::class, 'resetpassword_api'])->name('resetpassword');
+Route::post('verfiy_email', [ForgotPasswordController::class, 'verfiy_email_api'])->name('verfiy_email');
+
+
+
+
+
 Route::middleware(['auth:admins'])->group(function () {});
 
 
 
 Route::middleware(['auth:clients'])->group(function () {
+
+
+
+    Route::post('update', [ClientsController::class, 'update'])->name('update');
+
+
+
+
+    Route::post('clients_cancel', [ClientsCancelController::class, 'store'])->name('clients_cancel');
+    Route::get('clients_cancel', [ClientsCancelController::class, 'index_api'])->name('clients_cancel');
+
+
+
+    Route::post('orders_cancel/{id}', [OrdersCancelController::class, 'store'])->name('orders_cancel');
+    Route::get('orders_cancel', [OrdersCancelController::class, 'index_api'])->name('orders_cancel');
 
 
 
@@ -52,7 +81,6 @@ Route::middleware(['auth:clients'])->group(function () {
     Route::get('show_my_account/{id}', [ClientsController::class, 'show_my_account'])->name('show_my_account');
 
     Route::post('add_service', [ClientsController::class, 'add_service'])->name('add_service');
-
 });
 
 

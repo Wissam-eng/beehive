@@ -27,51 +27,51 @@
                         <table id="servicesTable" class="usersTable">
                             <thead>
                                 <tr>
+                                    <th class="ltr:rounded-l-md rtl:rounded-r-md">العميل</th>
                                     <th class="ltr:rounded-l-md rtl:rounded-r-md">الخدمة</th>
                                     <th>التكلفة </th>
                                     <th>حالة الدفع</th>
                                     <th>الحالة</th>
                                     <th>عدد الايام من تاريخ الانشاء</th>
-                                    <th>حالة المرتجع</th>
                                     <th>Acton</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($services as $service)
+                                @foreach ($orders_cancel as $service)
                                     <tr class="group text-white-dark hover:text-black dark:hover:text-white-light/90">
                                         <td class="min-w-[150px] text-black dark:text-white">
                                             <div class="flex items-center">
-                                                <span class="whitespace-nowrap">{{ $service->service_name }}</span>
+                                                <span class="whitespace-nowrap">{{ $service->client->name }}</span>
                                             </div>
                                         </td>
-                                        <td class="text-primary">{{ $service->service_cost }}</td>
-                                        <td><a href="apps-invoice-preview.html">{{ $service->payment_status }}</a></td>
-                                        <td><a href="apps-invoice-preview.html">{{ $service->status }}</a></td>
+                                        <td class="min-w-[150px] text-black dark:text-white">
+                                            <div class="flex items-center">
+                                                <span class="whitespace-nowrap">{{ $service->order->service_name }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="text-primary">{{ $service->order->service_cost }}</td>
+                                        <td>{{ $service->order->payment_status }}
+                                        </td>
+
+                                        <td>{{ $service->order->status }}</td>
                                         <td>
                                             <span class="badge bg-primary shadow-md dark:group-hover:bg-transparent">
-                                                {{ \Carbon\Carbon::parse($service->created_at)->diffInDays(\Carbon\Carbon::now()) }}
+                                                {{ \Carbon\Carbon::parse($service->order->created_at)->diffInDays(\Carbon\Carbon::now()) }}
                                             </span>
                                         </td>
 
                                         <td>
-                                            <span
-                                                class="badge bg-primary shadow-md dark:group-hover:bg-transparent">{{ $service->refund }}
-                                            </span>
-                                        </td>
-
-                                        <td>
-                                            @if ($service->refund == 'not_paid')
-                                                <form id="refund-form-{{ $service->id }}"
-                                                    action="{{ route('refund_service', ['id' => $service->id]) }}"
-                                                    method="POST" style="display: none;">
-                                                    @csrf
-                                                </form>
-                                                <button type="button" class="btn btn-success ltr:mr-1 rtl:ml-1"
-                                                    onclick="confirmRefund('{{ $service->id }}', 'refund')">
-                                                    تاكيد المرتجع
-                                                </button>
-                                            @endif
+                                            <form id="inactive-form-{{ $service->order_id }}"
+                                                action="{{ route('inactive_order', ['id' => $service->order_id]) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                @method('POST')
+                                            </form>
+                                            <button type="button" class="btn btn-danger ltr:mr-2 rtl:ml-2"
+                                                onclick="confirmAction({{ $service->order_id }}, 'inactive')">
+                                                الغاء
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -84,5 +84,7 @@
             </div>
         </div>
     </div>
-    <!-- end main content section -->
+
+
+
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\clients_cancel;
+use App\Models\clients;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
@@ -54,6 +55,13 @@ class ClientsCancelController extends Controller
 
 
             $clients_cancel = clients_cancel::create(request()->all());
+
+
+            $client = clients::find($client);
+
+            $client->update([
+                'status' => 'canceled',
+            ]);
 
             return response()->json(['success', 'تم التسجيل الطلب بنجاح'], 200);
         } catch (\Exception $e) {

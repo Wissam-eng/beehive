@@ -148,18 +148,18 @@ class ClientsController extends Controller
 
             // التحقق من البيانات المدخلة
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
+                'name' => 'sometimes|string|max:255',
                 'email' => [
-                    'required',
+                    'sometimes',
                     'email',
                     Rule::unique('clients', 'email')->ignore($id)
                 ],
                 'mobile' => [
-                    'required',
+                    'sometimes',
                     Rule::unique('clients', 'mobile')->ignore($id)
                 ],
-                'gender' => 'required|in:male,female',
-                'birth_date' => 'required|date',
+                'gender' => 'sometimes|in:male,female',
+                'birth_date' => 'sometimes|date',
                 'age' => 'nullable|integer|min:1|max:120',
                 'city' => 'nullable|string|max:255',
                 'work' => 'nullable|string|max:255',
@@ -359,8 +359,9 @@ class ClientsController extends Controller
     }
 
 
-    public function show_my_account($id)
+    public function show_my_account()
     {
+        $id = auth()->user()->id;
         $clients = clients::find($id);
 
 

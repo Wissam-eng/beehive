@@ -74,11 +74,11 @@ Route::middleware(['auth:clients'])->group(function () {
     Route::get('show_my_order/{id}', [ServicesClientController::class, 'show_my_order'])->name('show_my_order');
 
 
-    Route::get('show_all_my_order/{id}', [ServicesClientController::class, 'show_all_my_order'])->name('show_all_my_order');
+    Route::get('show_all_my_order', [ServicesClientController::class, 'show_all_my_order'])->name('show_all_my_order');
 
     Route::post('inactive_my_account/{id}', [ClientsController::class, 'inactive_my_account'])->name('inactive_my_account');
 
-    Route::get('show_my_account/{id}', [ClientsController::class, 'show_my_account'])->name('show_my_account');
+    Route::get('show_my_account', [ClientsController::class, 'show_my_account'])->name('show_my_account');
 
     Route::post('add_service', [ClientsController::class, 'add_service'])->name('add_service');
 });

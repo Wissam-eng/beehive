@@ -42,7 +42,7 @@ return new class extends Migration
 
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->enum('marital_status', ['single', 'married'])->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['active', 'inactive', 'canceled'])->default('active');
             $table->enum('refund', ['done', 'not'])->default('not');
 
 

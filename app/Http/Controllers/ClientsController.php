@@ -232,6 +232,8 @@ class ClientsController extends Controller
 
 
 
+
+
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
@@ -249,7 +251,7 @@ class ClientsController extends Controller
                 ], 404); // Not Found
             }
 
-            $service_cost = $request->service_cost;
+            $service_cost = 5800;
 
 
             if (is_array($request->service_name)) {
